@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { site } from "@/content/site";
+import type { SiteContent } from "@/content/site";
 import { Reveal } from "./Reveal";
 import { ArrowUpRight } from "lucide-react";
 
-export function BookingForm() {
+export function BookingForm({ content }: { content: SiteContent }) {
   const [sent, setSent] = useState(false);
 
   return (
@@ -11,13 +11,13 @@ export function BookingForm() {
       <div className="mx-auto max-w-3xl px-6 md:px-10">
         <Reveal>
           <p className="mb-6 text-xs uppercase tracking-[0.4em] text-muted-foreground">
-            Primeiro passo
+            {content.form.eyebrow}
           </p>
           <h2 className="font-display text-5xl leading-[1.05] tracking-tight md:text-6xl">
-            {site.form.title}
+            {content.form.title}
           </h2>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground text-balance">
-            {site.form.subtitle}
+            {content.form.subtitle}
           </p>
         </Reveal>
 
@@ -29,10 +29,10 @@ export function BookingForm() {
             }}
             className="mt-14 space-y-8"
           >
-            <Field label="Seu nome" name="name" type="text" required />
-            <Field label="Contato (e-mail ou telefone)" name="contact" type="text" required />
+            <Field label={content.form.fields.name} name="name" type="text" required />
+            <Field label={content.form.fields.contact} name="contact" type="text" required />
             <Field
-              label="Conte sua ideia ou o que te traz aqui"
+              label={content.form.fields.idea}
               name="idea"
               textarea
               required
@@ -43,7 +43,7 @@ export function BookingForm() {
               disabled={sent}
               className="group inline-flex items-center gap-3 rounded-full bg-foreground px-8 py-4 text-sm uppercase tracking-[0.18em] text-background transition-all hover:gap-4 disabled:opacity-60"
             >
-              <span>{sent ? "Recebido com carinho" : "Enviar mensagem"}</span>
+              <span>{sent ? content.form.sent : content.form.submit}</span>
               <ArrowUpRight className="h-4 w-4 transition-transform group-hover:rotate-45" />
             </button>
           </form>

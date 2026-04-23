@@ -20,7 +20,7 @@ export function CtaButton({
     outline:
       "border border-foreground/30 text-foreground hover:bg-foreground hover:text-background",
     light:
-      "bg-cream text-ink hover:bg-cream/90 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.4)]",
+      "bg-foreground text-background hover:bg-foreground/90 dark:bg-cream dark:text-ink dark:hover:bg-cream/90 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.4)]",
   };
   return (
     <a href={href} className={`${base} ${styles[variant]}`}>

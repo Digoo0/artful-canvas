@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { Header } from "@/components/site/Header";
 import { Hero } from "@/components/site/Hero";
 import { Manifesto } from "@/components/site/Manifesto";
@@ -7,7 +8,7 @@ import { Gallery } from "@/components/site/Gallery";
 import { Invite } from "@/components/site/Invite";
 import { BookingForm } from "@/components/site/BookingForm";
 import { Footer } from "@/components/site/Footer";
-import { site } from "@/content/site";
+import { site, siteByLanguage, type Language } from "@/content/site";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -26,16 +27,32 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const [language, setLanguage] = useState<Language>("pt");
+
+  useEffect(() => {
+    const storedLanguage = localStorage.getItem("site-language");
+    if (storedLanguage === "pt" || storedLanguage === "en") {
+      setLanguage(storedLanguage);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("site-language", language);
+    document.documentElement.lang = language;
+  }, [language]);
+
+  const content = siteByLanguage[language];
+
   return (
     <main className="relative min-h-screen bg-background text-foreground">
-      <Header />
-      <Hero />
-      <Manifesto />
-      <Philosophy />
-      <Gallery />
-      <Invite />
-      <BookingForm />
-      <Footer />
+      <Header content={content} language={language} onLanguageChange={setLanguage} />
+      <Hero content={content} />
+      <Manifesto content={content} />
+      <Philosophy content={content} />
+      <Gallery content={content} />
+      <Invite content={content} />
+      <BookingForm content={content} />
+      <Footer content={content} />
     </main>
   );
 }
